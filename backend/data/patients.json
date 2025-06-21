@@ -1,0 +1,57 @@
+{
+    "P225": {
+        "name": "John Doe",
+        "age": 29,
+        "height": 170.5,
+        "weight": 70.0,
+        "city": "New York",
+        "gender": "Male",
+        "patient_id": "P225",
+        "bmi": 24.08,
+        "verdict": "Healthy"
+    },
+    "P084": {
+        "name": "dani",
+        "age": 67,
+        "height": 187.0,
+        "weight": 79.0,
+        "city": "karachi",
+        "gender": "Male",
+        "patient_id": "P084",
+        "bmi": 22.59,
+        "verdict": "Healthy"
+    },
+    "P435": {
+        "name": "fatima",
+        "age": 26,
+        "height": 181.0,
+        "weight": 67.0,
+        "city": "karachi",
+        "gender": "Female",
+        "patient_id": "P435",
+        "bmi": 20.45,
+        "verdict": "Healthy"
+    },
+    "P536": {
+        "name": "Johnny",
+        "age": 25,
+        "height": 170.5,
+        "weight": 70.0,
+        "city": "New York",
+        "gender": "Male",
+        "patient_id": "P414",
+        "bmi": 24.08,
+        "verdict": "Healthy"
+    },
+    "Pa2733c29": {
+        "name": "hamza",
+        "age": 23,
+        "height": 162.0,
+        "weight": 89.0,
+        "city": "karachi",
+        "gender": "Male",
+        "patient_id": "P6bc57ea5",
+        "bmi": 33.91,
+        "verdict": "Obese"
+    }
+}

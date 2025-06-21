@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: dev
+  labels:
+    app: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-deployment
+  template:
+    metadata:
+      labels:
+        app: backend-deployment
+    spec:
+      containers:
+      - name: backend
+        image: pms-backend:v1
+        ports: # If you have ports defined, ensure they are here
+          - containerPort: 8000
+        resources: # This 'resources' must be directly under the container name and image
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        volumeMounts:
+          - name: data
+            mountPath: /app/data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: pvc-nfs
+

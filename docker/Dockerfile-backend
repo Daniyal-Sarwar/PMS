@@ -1,0 +1,63 @@
+# Dockerfile for Patient Management System Backend
+FROM python:3.11-slim
+
+# Set work directory
+WORKDIR /app
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    PORT=8000 \
+    HOST=0.0.0.0 \
+    LOG_LEVEL=INFO
+
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        libpq-dev \
+        gosu \
+        netcat-traditional \
+        curl \
+        procps \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user
+RUN groupadd -r app && useradd -r -g app app
+
+# Copy requirements first to leverage Docker caching
+COPY backend/requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir gunicorn
+
+# Create necessary directories and set permissions
+RUN mkdir -p /app/data /app/logs \
+    && chown -R app:app /app
+
+# Copy entrypoint script
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Copy project files
+COPY backend/ /app/
+
+# Set proper permissions
+RUN chown -R app:app /app
+
+# Expose the API port
+EXPOSE 8000
+
+# Switch to non-root user
+USER app
+
+# Expose the application port
+EXPOSE 8000
+
+# Define health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl -f http://localhost:8000/health || exit 1
+
+# Start the application
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]

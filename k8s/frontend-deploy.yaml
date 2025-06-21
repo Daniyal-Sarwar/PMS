@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deploy
+  namespace: dev
+  labels:
+    app: frontned-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontned-deploy 
+  template:
+    metadata:
+      labels:
+        app: frontned-deploy
+    spec:
+      containers:
+      - name: frontend
+        image: pms-frontend:v1
+        ports: # If you have ports defined, ensure they are here
+          - containerPort: 80
+        resources: # This 'resources' must be directly under the container name and image
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
